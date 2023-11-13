@@ -41,11 +41,10 @@ jobs:
           --output tsv | xargs -I {} az network vnet peering delete --ids {}
       - name: terraform init
         run: |
-          terraform init
+          terraform init -backend-config="key=${{ github.event.inputs.resource_group }}.tfstate"
       - name: terraform plan
         run: |
           terraform plan \
-          -backend-config="key=${{ github.event.inputs.resource_group }}.tfstate" \
           -var="resource_group_name=${{ github.event.inputs.resource_group }}" \
           -var="location=japaneast" \
           -var='address_space=["${{ github.event.inputs.address_space }}"]' \
@@ -56,7 +55,6 @@ jobs:
       - name: terraform apply
         run: |
           terraform apply -auto-approve \
-          -backend-config="key=${{ github.event.inputs.resource_group }}.tfstate" \
           -var="resource_group_name=${{ github.event.inputs.resource_group }}" \
           -var="location=japaneast" \
           -var='address_space=["${{ github.event.inputs.address_space }}"]' \
