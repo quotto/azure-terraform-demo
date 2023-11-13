@@ -29,7 +29,3 @@ resource "azurerm_resource_group_policy_assignment" "policy_assignment" {
     type = "SystemAssigned"
   }
 }
-
-output "name" {
-  value = azurerm_resource_group.resource_group.name
-}

@@ -65,7 +65,3 @@ resource "azurerm_subnet_network_security_group_association" "app-vnet-subnet-ns
   subnet_id = azurerm_subnet.app-vnet-subnet.id
   network_security_group_id = var.nsg_id
 }
-
-output "app-vnet-id" {
-  value = azurerm_virtual_network.app_vnet.id
-}
