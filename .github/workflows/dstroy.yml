@@ -1,0 +1,28 @@
+on:
+  workflow_dispatch:
+    inputs:
+      resource_group:
+        description: 'Resource Group'
+        required: true
+        default: 'my-resource-group'
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+
+job:
+  destroy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: terraform init
+        run: |
+          terraform init -backend-config="key=${{ github.event.inputs.resource_group }}.tfstate"
+      - name: terraform destroy
+        run: |
+          terraform destroy -auto-approve
