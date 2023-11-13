@@ -67,6 +67,6 @@ module "other-vnet-peering" {
     location = var.location
     resource_group_name = var.other_vnet_resource_group_name
     other_vnet_name = var.other_vnet_name
-    remote_vnet_id = module.app-vnet.app-vnet-id
-    remote_vnet_name = "${module.resource_group.name}-${module.app-vnet.vnet-name}"
+    remote_vnet_id = module.app-vnet.vnet_id
+    remote_vnet_name = "${module.resource_group.name}-${module.app-vnet.vnet_name}"
 }
