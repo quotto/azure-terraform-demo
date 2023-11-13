@@ -19,8 +19,6 @@ env:
   ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
   ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
   ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-  TF_VAR_tenant_id: ${{ secrets.ARM_TENANT_ID }}
-  TF_VAR_subscription_id: ${{ secrets.ARM_SUBSCRIPTION_ID }}
   POLICY_DIFINITION_ID: ${{ secrets.POLICY_DIFINITION_ID }}
   
 
@@ -38,6 +36,7 @@ jobs:
           -var="resource_group_name=${{ github.event.inputs.resource_group }}" \
           -var="location=japaneast" \
           -var='address_space=["${{ github.event.inputs.address_space }}"]' \
+          -var="other_vnet_resource_group_name=sandbox-rg" \
           -var="other_vnet_id=/subscriptions/${ARM_SUBSCRIPTION_ID}/resourceGroups/my-resource-group/providers/Microsoft.Network/virtualNetworks/sandbox-vnet" \
           -var="other_vnet_name=sandbox-vnet" \
           -var="policy_definition_id=${POLICY_DIFINITION_ID}" 
@@ -47,6 +46,7 @@ jobs:
           -var="resource_group_name=${{ github.event.inputs.resource_group }}" \
           -var="location=japaneast" \
           -var='address_space=["${{ github.event.inputs.address_space }}"]' \
+          -var="other_vnet_resource_group_name=sandbox-rg" \
           -var="other_vnet_id=/subscriptions/${ARM_SUBSCRIPTION_ID}/resourceGroups/my-resource-group/providers/Microsoft.Network/virtualNetworks/sandbox-vnet" \
           -var="other_vnet_name=sandbox-vnet" \
           -var="policy_definition_id=${POLICY_DIFINITION_ID}" 
