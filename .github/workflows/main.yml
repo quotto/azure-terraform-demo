@@ -20,13 +20,25 @@ env:
   ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
   ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
   POLICY_DEFINITION_ID: ${{ secrets.POLICY_DEFINITION_ID }}
-  
+
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: azure/login@v1
+        with:
+          client-id: ${{ env.ARM_CLIENT_ID }}
+          tenant-id: ${{ env.ARM_TENANT_ID }}
+          subscription-id: ${{ env.ARM_SUBSCRIPTION_ID }}
+      - uses: remove non active peering
+        run: |
+          az network vnet peering list \
+          --resource-group ${{ github.event.inputs.resource_group }} \
+          --vnet-name ${{ github.event.inputs.resource_group }}-vnet \
+          --query "[?peeringState=='Connected'].id" \
+          --output tsv | xargs -I {} az network vnet peering delete --ids {}
       - name: terraform init
         run: |
           terraform init
@@ -39,7 +51,7 @@ jobs:
           -var="other_vnet_resource_group_name=sandbox-rg" \
           -var="other_vnet_id=/subscriptions/${ARM_SUBSCRIPTION_ID}/resourceGroups/sandbox-rg/providers/Microsoft.Network/virtualNetworks/sandbox-vnet" \
           -var="other_vnet_name=sandbox-vnet" \
-          -var="policy_definition_id=${POLICY_DEFINITION_ID}" 
+          -var="policy_definition_id=${POLICY_DEFINITION_ID}"
       - name: terraform apply
         run: |
           terraform apply -auto-approve \
@@ -49,4 +61,4 @@ jobs:
           -var="other_vnet_resource_group_name=sandbox-rg" \
           -var="other_vnet_id=/subscriptions/${ARM_SUBSCRIPTION_ID}/resourceGroups/sandbox-rg/providers/Microsoft.Network/virtualNetworks/sandbox-vnet" \
           -var="other_vnet_name=sandbox-vnet" \
-          -var="policy_definition_id=${POLICY_DEFINITION_ID}" 
+          -var="policy_definition_id=${POLICY_DEFINITION_ID}"
