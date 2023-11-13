@@ -1,15 +1,3 @@
-variable "subscription_id" {
-    type = string
-}
-variable "tenant_id" {
-    type = string
-}
-variable "oidc_request_token" {
-    type = string
-}
-variable "oidc_request_url" {
-    type = string
-}
 variable "location" {
     type = string
     default = "japaneast"
