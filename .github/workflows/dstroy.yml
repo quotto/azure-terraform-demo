@@ -20,6 +20,8 @@ jobs:
   destroy:
     runs-on: ubuntu-latest
     steps:
+      - name: checkout
+        uses: actions/checkout@v2
       - name: terraform init
         run: |
           terraform init -backend-config="key=${{ github.event.inputs.resource_group }}.tfstate"
