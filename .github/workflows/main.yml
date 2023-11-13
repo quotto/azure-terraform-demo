@@ -42,23 +42,18 @@ jobs:
       - name: terraform init
         run: |
           terraform init -backend-config="key=${{ github.event.inputs.resource_group }}.tfstate"
+      - name: set tfvars
+        run: |
+          echo "resource_group_name = \"${{ github.event.inputs.resource_group }}\"" >> terraform.tfvars
+          echo "location = \"japaneast\"" >> terraform.tfvars
+          echo "address_space = [\"${{ github.event.inputs.address_space }}\"]" >> terraform.tfvars
+          echo "other_vnet_resource_group_name = \"sandbox-rg\"" >> terraform.tfvars
+          echo "other_vnet_id = \"/subscriptions/${ARM_SUBSCRIPTION_ID}/resourceGroups/sandbox-rg/providers/Microsoft.Network/virtualNetworks/sandbox-vnet\"" >> terraform.tfvars
+          echo "other_vnet_name = \"sandbox-vnet\"" >> terraform.tfvars
+          echo "policy_definition_id = \"${POLICY_DEFINITION_ID}\"" >> terraform.tfvars
       - name: terraform plan
         run: |
-          terraform plan \
-          -var="resource_group_name=${{ github.event.inputs.resource_group }}" \
-          -var="location=japaneast" \
-          -var='address_space=["${{ github.event.inputs.address_space }}"]' \
-          -var="other_vnet_resource_group_name=sandbox-rg" \
-          -var="other_vnet_id=/subscriptions/${ARM_SUBSCRIPTION_ID}/resourceGroups/sandbox-rg/providers/Microsoft.Network/virtualNetworks/sandbox-vnet" \
-          -var="other_vnet_name=sandbox-vnet" \
-          -var="policy_definition_id=${POLICY_DEFINITION_ID}"
+          terraform plan
       - name: terraform apply
         run: |
-          terraform apply -auto-approve \
-          -var="resource_group_name=${{ github.event.inputs.resource_group }}" \
-          -var="location=japaneast" \
-          -var='address_space=["${{ github.event.inputs.address_space }}"]' \
-          -var="other_vnet_resource_group_name=sandbox-rg" \
-          -var="other_vnet_id=/subscriptions/${ARM_SUBSCRIPTION_ID}/resourceGroups/sandbox-rg/providers/Microsoft.Network/virtualNetworks/sandbox-vnet" \
-          -var="other_vnet_name=sandbox-vnet" \
-          -var="policy_definition_id=${POLICY_DEFINITION_ID}"
+          terraform apply -auto-approve
