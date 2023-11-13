@@ -37,7 +37,7 @@ jobs:
           -var="location=japaneast" \
           -var='address_space=["${{ github.event.inputs.address_space }}"]' \
           -var="other_vnet_resource_group_name=sandbox-rg" \
-          -var="other_vnet_id=/subscriptions/${ARM_SUBSCRIPTION_ID}/resourceGroups/my-resource-group/providers/Microsoft.Network/virtualNetworks/sandbox-vnet" \
+          -var="other_vnet_id=/subscriptions/${ARM_SUBSCRIPTION_ID}/resourceGroups/sandbox-rg/providers/Microsoft.Network/virtualNetworks/sandbox-vnet" \
           -var="other_vnet_name=sandbox-vnet" \
           -var="policy_definition_id=${POLICY_DEFINITION_ID}" 
       - name: terraform apply
@@ -47,6 +47,6 @@ jobs:
           -var="location=japaneast" \
           -var='address_space=["${{ github.event.inputs.address_space }}"]' \
           -var="other_vnet_resource_group_name=sandbox-rg" \
-          -var="other_vnet_id=/subscriptions/${ARM_SUBSCRIPTION_ID}/resourceGroups/my-resource-group/providers/Microsoft.Network/virtualNetworks/sandbox-vnet" \
+          -var="other_vnet_id=/subscriptions/${ARM_SUBSCRIPTION_ID}/resourceGroups/sandbox-rg/providers/Microsoft.Network/virtualNetworks/sandbox-vnet" \
           -var="other_vnet_name=sandbox-vnet" \
           -var="policy_definition_id=${POLICY_DEFINITION_ID}" 
