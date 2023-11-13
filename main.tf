@@ -37,7 +37,6 @@ terraform {
     resource_group_name = "sandbox-rg"
     storage_account_name = "terraformstg9999"
     container_name = "state"
-    key = var.resource_group_name.tfstate
     use_oidc = true
   }
 }
